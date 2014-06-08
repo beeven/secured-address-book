@@ -1,0 +1,9 @@
+<div ng-controller="DepartmentsCtrl">
+    <div class="list-group">
+        <a class="list-group-item" href="#"
+            ng-repeat="item in deptList"
+            ng-href="#/department/{{item.id}}">
+            <span class="badge">{{item.count}}</span>
+            {{item.name}}</a>
+    </div>
+</div>
