@@ -1,0 +1,13 @@
+{
+    "name": "secured-address-book",
+    "author": "Beeven Yip <beeven.ye@gmail.com>",
+    "dependencies" : {
+        "express": ">= 4.0.0"
+    },
+    "devDependencies": {
+        "mocha": ">= 1.2.3",
+        "must": ">=0.12.0"
+    },
+    "engine": "node 0.10.x",
+    "license": "Apache 2.0"
+}
