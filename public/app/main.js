@@ -47,7 +47,8 @@ require.config({
             deps:['jquery'],
             exports: 'bootstrap'
         }
-    }
+    },
+    out: "integrated.js"
 });
 
 require(['jquery','angular','./app'],function($,angular){
