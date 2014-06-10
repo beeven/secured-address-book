@@ -1,15 +1,15 @@
-TESTS = test/*.test.js
+TESTS = test/server/**/*.test.js
 REPORTER = spec
 TIMEOUT = 10000
 
 install:
-  @npm install
+	@npm install
 
 test:
-  @NODE_ENV=test ./node_modules/mocha/bin/mocha \
-    --reporter $(REPORTER) \
-    --timeout $(TIMEOUT) \
-    $(TESTS)
+	"./node_modules/.bin/mocha.cmd" \
+		--reporter $(REPORTER) \
+		--timeout $(TIMEOUT) \
+		$(TESTS)
 
 
 
