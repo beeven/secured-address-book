@@ -6,6 +6,8 @@
 var express = require("express"),
     router  = express.Router();
 
+var dataProvider = require("./dataProvider");
+
 
 router.get("/",function(req,res){
    res.json([

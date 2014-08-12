@@ -4,8 +4,8 @@ var express = require("express"),
     http    = require("http"),
     fs      = require("fs");
 
-var departmentsModule = require("./modules/departments");
-
+var departmentController= require("./modules/departmentCtrl");
+var staffController = require("./modules/staffCtrl");
 
 
 var options = {
@@ -24,7 +24,11 @@ https.createServer(options,app).listen(8443);
 http.createServer(app).listen(8080);
 
 app.get("/",function(req,res){
-    res.send("Hello");
+    res.redirect("/index.html");
 });
 
-app.use("/api/departments",departmentsModule);
+app.use("/api/departments",departmentController);
+
+app.use("/api/staff",staffController);
+
+

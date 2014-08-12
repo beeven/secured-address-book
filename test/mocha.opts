@@ -1,3 +1,4 @@
--R spec
+--reporter spec
 --ui bdd
 --require should
+--timeout 10000

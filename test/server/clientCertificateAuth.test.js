@@ -2,9 +2,8 @@
  * Created by beeven on 8/6/14.
  */
 
-var should = require("should");
 
-var clientCertificateAuth = require("../../../modules/client-certificate-auth/lib/clientCertificateAuth.js");
+var clientCertificateAuth = require("../../modules/client-certificate-auth/lib/clientCertificateAuth.js");
 
 
 

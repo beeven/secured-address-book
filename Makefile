@@ -1,4 +1,4 @@
-TESTS = test/server/**/*.test.js
+TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 10000
 
