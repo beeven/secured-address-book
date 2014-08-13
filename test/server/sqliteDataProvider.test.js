@@ -41,6 +41,24 @@ describe("SqliteDataProvider",function(){
                     false.should.be.ok;
                     done();
                 })
-        })
-    })
+        });
+    });
+
+    describe("sqliteDataProvider.getDepartmentTree2",function(){
+        it('should return a tree',function(done){
+            sqliteDataProvider.getDepartmentTree2()
+                .then(function(root){
+                    root.id.should.be.exactly('051');
+                    root.children.should.be.an.Array;
+                    //console.log(util.inspect(root,{depth: 6, colors: true}))
+                    done();
+                })
+                .fail(function(err){
+                    console.error(err);
+                    false.should.be.ok;
+                    done();
+                })
+        });
+    });
+
 });

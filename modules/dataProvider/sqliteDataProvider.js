@@ -106,4 +106,63 @@ SqliteData.prototype.getDepartmentTree = function () {
     return deferred.promise;
 };
 
+SqliteData.prototype.getDepartmentTree2 = function() {
+    var deferred = Q.defer();
+    var db = this.database;
+    db.serialize(function(){
+
+        db.all("select * from Departments",function(err,results){
+            var findChildren = function(deptObj) {
+                var patt = new RegExp("^"+deptObj.id + ".{3}$");
+                //console.log('staring at: ',deptObj);
+                var filtered = results.filter(function(row){
+                    return patt.test(row['dept_id']);
+                });
+                //console.log('filtered: ',filtered.length);
+                if(filtered.length > 0) {
+                    var children = [];
+                    for(var i=0;i<filtered.length;i++) {
+                        var ret = {
+                            name: filtered[i]['DEPT_LVL3'] || filtered[i]['DEPT_LVL2'] || filtered[i]['DEPT_LVL1'],
+                            fullname: filtered[i]['full_name'],
+                            id: filtered[i]['dept_id']
+                        };
+                        results.splice(results.indexOf(filtered[i]),1);
+                        var grandchildren =  findChildren(ret);
+                        if(grandchildren != null && typeof(grandchildren) !== 'undefined') {
+                            //console.log(grandchildren);
+                            ret.children = grandchildren;
+                        }
+                        children.push(ret);
+                    }
+                    return children;
+                }
+            };
+
+            var min = results.reduce(function(minObj,row,index){
+                if(minObj.length > row['dept_id'].length) {
+                    return {
+                        length: row['dept_id'].length,
+                        index: index
+                    };
+                } else {
+                    return minObj;
+                }
+            },{length:results[0]['dept_id'].length,index:0});
+
+            var root = {
+                id: results[min.index]['dept_id'],
+                name : results[min.index]['DEPT_LVL3'] || results[min.index]['DEPT_LVL2'] || results[min.index]['DEPT_LVL1'],
+                fullname: results[min.index]['full_name']
+            };
+            results.splice(min.index,1);
+            root.children = findChildren(root);
+            deferred.resolve(root);
+        });
+    });
+
+
+    return deferred.promise;
+};
+
 module.exports = SqliteData;
