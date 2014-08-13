@@ -3,7 +3,6 @@
  */
 
 var sqlite3 = require("sqlite3");
-
 var Q = require("q");
 
 function SqliteData() {
@@ -51,17 +50,23 @@ SqliteData.prototype.getDepartmentTree = function () {
             var d = Q.defer();
             var ret = [];
             db.each("select * from Departments where dept_id like ? and length(dept_id) = ?",
-                [deptObj.deptId + '%', deptObj.dpetId.length + step],
+                [deptObj.id + '%', deptObj.id.length + step],
                 function (err, row) {
+                    if(err) {
+                        console.error(err);
+                        d.reject(err);
+                        return;
+                    }
                     ret.push({
-                        name: row['name'],
-                        fullname: row['fullname'],
+                        name: row['DEPT_LVL3'] || row['DEPT_LVL2'] || row['DEPT_LVL1'],
+                        fullname: row['full_name'],
                         id: row['dept_id']
                     });
 
                 },
                 function (err) {
                     if (err){
+                        console.error(err);
                         d.reject(err);
                         return;
                     }
@@ -73,6 +78,7 @@ SqliteData.prototype.getDepartmentTree = function () {
                             d.resolve(deptObj);
                         }).fail(function(err){
                             console.error(err,deptObj);
+                            d.reject(err);
                         })
                     }
                     else {
@@ -83,8 +89,18 @@ SqliteData.prototype.getDepartmentTree = function () {
             );
             return d.promise;
         };
-        db.get("select * from Departments where dept_id = '051'",function(err,result){
-            return findChildren(result);
+        db.get("select * from Departments where dept_id = '051'",function(err,row){
+            findChildren({
+                id: row['dept_id'],
+                name: row['DEPT_LVL3'] || row['DEPT_LVL2'] || row['DEPT_LVL1'],
+                fullname: row['full_name']
+            })
+                .then(function(ret){
+                    deferred.resolve(ret);
+
+                },function(err){
+                    deferred.reject(err);
+                });
         });
     });
     return deferred.promise;

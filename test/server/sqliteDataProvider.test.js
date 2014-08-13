@@ -1,6 +1,8 @@
 
 var SqliteDataProvider = require("../../modules/dataProvider/sqliteDataProvider");
 
+var util = require('util');
+
 describe("SqliteDataProvider",function(){
     var sqliteDataProvider = new SqliteDataProvider();
 
@@ -21,4 +23,24 @@ describe("SqliteDataProvider",function(){
                 });
         });
     });
+
+    describe("sqliteDataProvider.getDepartmentTree",function(){
+        it('should have a function named getDeaprtmentTree',function(){
+            sqliteDataProvider.getDepartmentTree.should.be.a.Function;
+        });
+        it('should return a tree',function(done){
+            sqliteDataProvider.getDepartmentTree()
+                .then(function(root){
+                    root.id.should.be.exactly('051');
+                    root.children.should.be.an.Array;
+                    //console.log(util.inspect(root,{depth: null, colors: true}))
+                    done();
+                })
+                .fail(function(err){
+                    console.error(err);
+                    false.should.be.ok;
+                    done();
+                })
+        })
+    })
 });
