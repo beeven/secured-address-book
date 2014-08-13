@@ -7,7 +7,11 @@ An address book website requiring a client certificate to access.
 ## Generate certificates
 
 Generate CA key
+<<<<<<< Updated upstream
 ```
+=======
+```bash
+>>>>>>> Stashed changes
     openssl genrsa -des3 -out privkey.pem 2048
     openssl req -new -x509 -key privkey.pem -out ca.crt -days 1095
 ```
