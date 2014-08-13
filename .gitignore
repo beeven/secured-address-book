@@ -30,3 +30,6 @@ node_modules
 
 # Mac os files
 .DS_Store
+
+# databases
+HRMobile.sqlite

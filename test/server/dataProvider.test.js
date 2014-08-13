@@ -1,22 +1,33 @@
 /**
- * Created by Beeven on 8/12/2014.
+ * Created by Beeven on 8/13/2014.
  */
 
-var DataProvider = require("../../modules/dataProvider/index");
+
+var dataProvider = require("../../modules/dataProvider");
+
 
 describe("dataProvider",function(){
-    var dataProvider = new DataProvider();
+    it('should have getDepartments function',function(){
+        dataProvider.getDepartments.should.be.a.Function;
+        console.dir(dataProvider.getDepartments());
+    });
 
-    describe("dataProvider.getDepartments",function(){
-        it('should have a function named getDepartments',function(){
-            dataProvider.getDepartments.should.be.a.Function;
-        });
-        it('should return non-empty data',function(done){
-            dataProvider.getDepartments().then(function(results){
-                results.should.be.an.Array;
-                console.log(results);
-                done();
+    it('should have function named getDepartmentTree',function(){
+        dataProvider.getDepartmentTree.should.be.a.Function;
+    });
+
+
+    describe("dataProvider.getDepartmentTree",function(){
+        it('should return a tree',function(done){
+            dataProvider.getDepartmentTree()
+            .then(function(root){
+                    root.id.should.eql("051");
+                    root.name.should.eql("广州海关");
+                    root.children.should.be.an.Array;
+                    root.children.length.should.be.greaterThan(0);
+                    done();
             });
         });
     });
+
 });
